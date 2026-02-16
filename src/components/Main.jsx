@@ -62,7 +62,7 @@ export default function Main() {
           </section>
         )}
         {recipeShown && (
-          {ClaudeRecipe}
+          <ClaudeRecipe/>
         )}
       </main>
     </>
