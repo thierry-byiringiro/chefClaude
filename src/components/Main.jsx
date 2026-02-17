@@ -1,5 +1,7 @@
 import { useState } from "react";
 import ClaudeRecipe from "./ClaudeRecipe";
+import IngredientList from "./IngredientsList";
+import { getRecipeFromMistral } from "../assets/ai";
 export default function Main() {
   const [arrayOfIngredients, setIngredients] = useState([
     "orange",
@@ -7,25 +9,20 @@ export default function Main() {
     "avocado",
     "mango",
   ]);
-  const displayIngredients = arrayOfIngredients.map((el, id) => (
-    <li key={id}>{el}</li>
-  ));
   const handleSubmit = (formData) => {
     const newIngredient = formData.get("ingredient");
-    if (newIngredient.length == 0) {
-      alert("You can not add an empty text");
-    } else {
-      setIngredients((prevIngredient) => [...prevIngredient, newIngredient]);
-    }
+    setIngredients((prevIngredient) => [...prevIngredient, newIngredient]);
   };
 
   const [recipeShown, setRecipeShown] = useState(false);
-  const handleClick = () => {
-    setRecipeShown((prevValue) => !prevValue);
+  const getRecipe = async() => {
+    setRecipeShown(await getRecipeFromMistral(arrayOfIngredients))
+   
   };
+  console.log(recipeShown)
   return (
     <>
-      <main className="mt-12 flex flex-col  justify-center items-center space-y-10">
+      <main className="mt-12 flex flex-col  justify-center items-center space-y-10 ml-30 mr-20">
         <form action={handleSubmit} className="flex gap-5" autoComplete="off">
           <input
             type="text"
@@ -41,29 +38,12 @@ export default function Main() {
           />
         </form>
         {arrayOfIngredients.length > 0 && (
-          <section className="pr-10 flex flex-col space-y-20">
-            <div>
-              <h2 className="font-bold text-3xl">Ingredients on hand:</h2>
-              <ul className="list-disc pl-5 mt-5">{displayIngredients}</ul>
-            </div>
-            {arrayOfIngredients.length > 3 && (
-              <div className="bg-[#F0EFEB] w-148.5 h-27.25 flex items-center justify-center rounded-md space-x-6">
-                <div className="flex flex-col space-y-4">
-                  <h3 className="font-bold text-xl">Ready for a recipe?</h3>
-                  <p className="text-[#6B7280]">
-                    Generate a recipe from your list of ingredients.
-                  </p>
-                </div>
-                <button onClick={handleClick} className="bg-[#D17557] h-9.5 flex items-center">
-                  Get a recipe
-                </button>
-              </div>
-            )}
-          </section>
+          <IngredientList
+            ingredientsList={arrayOfIngredients}
+            getRecipe={getRecipe}
+          />
         )}
-        {recipeShown && (
-          <ClaudeRecipe/>
-        )}
+        {recipeShown && <ClaudeRecipe/>}
       </main>
     </>
   );
