@@ -1,16 +1,16 @@
 export default function ClaudeRecipe() {
   return (
-    <section>
-      <h2>Chef Claude Recommends:</h2>
-      <article className="suggested-recipe-container" aria-live="polite">
+    <section className="flex flex-col space-y-4 w-148.5">
+      <h2 className="font-bold text-3xl">Chef Claude Recommends:</h2>
+      <article className="flex flex-col space-y-5" aria-live="polite">
         <p>
           Based on the ingredients you have available, I would recommend making
           a simple a delicious <strong>Beef Bolognese Pasta</strong>. Here is
           the recipe:
         </p>
         <h3>Beef Bolognese Pasta</h3>
-        <strong>Ingredients:</strong>
-        <ul>
+        <strong className="text-2xl">Ingredients:</strong>
+        <ul className="list-disc pl-5">
           <li>1 lb. ground beef</li>
           <li>1 onion, diced</li>
           <li>3 cloves garlic, minced</li>
@@ -24,8 +24,8 @@ export default function ClaudeRecipe() {
             8 oz pasta of your choice (e.g., spaghetti, penne, or linguine)
           </li>
         </ul>
-        <strong>Instructions:</strong>
-        <ol>
+        <strong className="text-2xl">Instructions:</strong>
+        <ol className="list-decimal pl-5 flex flex-col space-y-2">
           <li>Bring a large pot of salted water to a boil for the pasta.</li>
           <li>
             In a large skillet or Dutch oven, cook the ground beef over
