@@ -3,23 +3,16 @@ import ClaudeRecipe from "./ClaudeRecipe";
 import IngredientList from "./IngredientsList";
 import { getRecipeFromMistral } from "../assets/ai";
 export default function Main() {
-  const [arrayOfIngredients, setIngredients] = useState([
-    "orange",
-    "french fries",
-    "avocado",
-    "mango",
-  ]);
+  const [arrayOfIngredients, setIngredients] = useState([]);
   const handleSubmit = (formData) => {
     const newIngredient = formData.get("ingredient");
     setIngredients((prevIngredient) => [...prevIngredient, newIngredient]);
   };
 
-  const [recipeShown, setRecipeShown] = useState(false);
-  const getRecipe = async() => {
-    setRecipeShown(await getRecipeFromMistral(arrayOfIngredients))
-   
+  const [recipe, setRecipe] = useState(false);
+  const getRecipe = async () => {
+    setRecipe(await getRecipeFromMistral(arrayOfIngredients));
   };
-  console.log(recipeShown)
   return (
     <>
       <main className="mt-12 flex flex-col  justify-center items-center space-y-10 ml-30 mr-20">
@@ -43,7 +36,7 @@ export default function Main() {
             getRecipe={getRecipe}
           />
         )}
-        {recipeShown && <ClaudeRecipe/>}
+        {recipe && <ClaudeRecipe recipe={recipe} />}
       </main>
     </>
   );
