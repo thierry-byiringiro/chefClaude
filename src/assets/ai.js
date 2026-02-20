@@ -13,7 +13,6 @@ const hf = new InferenceClient(import.meta.env.VITE_HUGGINGFACE_API_KEY);
 export async function getRecipeFromMistral(ingredientsArr) {
   const ingredientsString = ingredientsArr.join(", ");
   try {
-    console.log(hf)
     const response = await hf.chatCompletion({
       model: "mistralai/Mistral-7B-Instruct-v0.2",
       messages: [
