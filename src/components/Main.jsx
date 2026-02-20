@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ClaudeRecipe from "./ClaudeRecipe";
 import IngredientList from "./IngredientsList";
 import { getRecipeFromMistral } from "../assets/ai";
@@ -8,11 +8,16 @@ export default function Main() {
     const newIngredient = formData.get("ingredient");
     setIngredients((prevIngredient) => [...prevIngredient, newIngredient]);
   };
-
-  const [recipe, setRecipe] = useState(false);
+  const recipeSection = useRef(null);
+  const [recipe, setRecipe] = useState("");
   const getRecipe = async () => {
     setRecipe(await getRecipeFromMistral(arrayOfIngredients));
   };
+  useEffect(() => {
+    if (recipe !== "" && recipeSection !== null) {
+      recipeSection.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [recipe]);
   return (
     <>
       <main className="mt-12 flex flex-col  justify-center items-center space-y-10 ml-30 mr-20">
@@ -32,6 +37,7 @@ export default function Main() {
         </form>
         {arrayOfIngredients.length > 0 && (
           <IngredientList
+            ref={recipeSection}
             ingredientsList={arrayOfIngredients}
             getRecipe={getRecipe}
           />
